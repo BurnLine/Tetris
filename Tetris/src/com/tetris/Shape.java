@@ -2,8 +2,8 @@ package com.tetris;
 
 public class Shape {
 	
-	public final int L_SHAPE = 0;
-	public final int SQR_SHAPE = 1;
+	public static final int L_SHAPE = 0;
+	public static final int SQR_SHAPE = 1;
 	// ... and so on
 	
 	private final byte SHAPES[][] = {
