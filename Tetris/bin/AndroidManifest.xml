@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="3"
+        android:minSdkVersion="4"
         android:targetSdkVersion="17" />
 
     <application
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tetris.Board"
+            android:name=".BoardOld"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

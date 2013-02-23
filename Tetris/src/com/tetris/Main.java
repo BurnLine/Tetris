@@ -11,8 +11,8 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		// dorobit menu
 
-		Intent intent = new Intent(this, Board.class);
-		startActivity(intent);
+		/*Intent intent = new Intent(this, BoardOld.class);
+		startActivity(intent);*/
 	}
 	
 }
