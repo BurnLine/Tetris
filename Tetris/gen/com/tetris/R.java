@@ -10,8 +10,13 @@ package com.tetris;
 public final class R {
     public static final class attr {
     }
+    public static final class drawable {
+        public static final int blue=0x7f020000;
+        public static final int green=0x7f020001;
+        public static final int orange=0x7f020002;
+    }
     public static final class string {
-        public static final int app_name=0x7f020000;
+        public static final int app_name=0x7f030000;
     }
     public static final class style {
         /** 
@@ -24,10 +29,10 @@ public final class R {
             backward-compatibility can go here.
         
          */
-        public static final int AppBaseTheme=0x7f030000;
+        public static final int AppBaseTheme=0x7f040000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f030001;
+        public static final int AppTheme=0x7f040001;
     }
 }
