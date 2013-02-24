@@ -10,6 +10,7 @@ public class Board {
 	private int boardWidth;
 	private int boardHeight;
 	private Shape activeShape;
+	private ActionListener listener;
 	
 	private int i, j, maxColl;
 	
@@ -56,6 +57,9 @@ public class Board {
 	{
 		if(checkEmptyPosition(activeShape.left + 1, activeShape.top)) {
 			activeShape.left += 1;
+			
+			if (listener != null)
+				listener.onRedraw();
 		}
 	}
 	
@@ -64,6 +68,9 @@ public class Board {
 	{
 		if(checkEmptyPosition(activeShape.left - 1, activeShape.top))
 			activeShape.left -= 1;
+		
+		if (listener != null)
+			listener.onRedraw();
 	}
 	
 	public Shape getActiveShape()
@@ -97,6 +104,10 @@ public class Board {
 		}
 		
 		return removedLine;
+	}
+	
+	public void setActionListener(ActionListener listener) {
+		this.listener = listener;
 	}
 	
 	private boolean canMoveDown()
@@ -136,5 +147,9 @@ public class Board {
 			}
 		}
 		activeShape = null;
+	}
+	
+	public interface ActionListener {
+		public void onRedraw();
 	}
 }

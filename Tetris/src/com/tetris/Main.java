@@ -1,5 +1,7 @@
 package com.tetris;
 
+import com.tetris.Board.ActionListener;
+
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -8,10 +10,12 @@ import android.content.Intent;
 
 public class Main extends Activity {
 
+	private float fx, fy;
 	private int x, y;
 	private TetrisGLSurfaceView tetris_view;
 	private GameRender3D tetris_renderer;
 	private Board board;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,6 +26,12 @@ public class Main extends Activity {
 		tetris_view = new TetrisGLSurfaceView(this);
 		board = new Board(10, 18);
 		board.attachNewShape(Shape.L_SHAPE);
+		board.setActionListener(new ActionListener() {
+			@Override
+			public void onRedraw() {
+				tetris_view.requestRender();
+			}
+		});
 		tetris_renderer = new GameRender3D(board);
 		tetris_view.setRenderer(tetris_renderer);
 		tetris_view.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
