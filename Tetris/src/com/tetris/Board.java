@@ -101,11 +101,7 @@ public class Board {
 	
 	private boolean canMoveDown()
 	{
-		/*for(i = 0; i < 4; ++i) {
-			j = 3;
-			while((activeShape.getMapValue(i, j--) == 0) && (j != 0));
-			if()
-		}*/
+		// kokotina
 		if(activeShape.top < (boardHeight - 4))
 			return true;
 		return false;
