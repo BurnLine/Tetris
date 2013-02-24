@@ -93,7 +93,8 @@ public class Board {
 			return null;
 		
 		for(i = 0; i < boardWidth; ++i) {
-			removedLine.set(i, boardMap.remove(line * boardWidth + i));
+			removedLine.set(i, boardMap.get(line * boardWidth + i));
+			boardMap.set(line * boardWidth + i, null);
 		}
 		
 		return removedLine;
