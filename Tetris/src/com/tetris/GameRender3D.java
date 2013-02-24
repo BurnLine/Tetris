@@ -13,10 +13,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
 
-/*
- * test 2
-*/
-
 public class GameRender3D implements GLSurfaceView.Renderer {
 	
 	private final float CUBE_VERTICES[] = {
