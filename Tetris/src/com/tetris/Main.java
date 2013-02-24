@@ -30,6 +30,7 @@ public class Main extends Activity {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		/*
 	    switch (event.getAction()) {
 	      case MotionEvent.ACTION_MOVE:
 	    	  
@@ -52,6 +53,15 @@ public class Main extends Activity {
 	      default:
 	        return super.onTouchEvent(event);
 	    }
+	    */
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			return true;
+		case MotionEvent.ACTION_MOVE:
+			return true;
+		}
+		
+		return false;
 	  }
 	
 }
