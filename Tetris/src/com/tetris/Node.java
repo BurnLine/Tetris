@@ -6,7 +6,7 @@ public class Node {
 	public float y;
 	public float z;
 	
-	public Node(int _color, float sX, float sY, float sZ, float sEdgeSize)
+	public Node(int _color, float sX, float sY, float sZ)
 	{
 		color = _color;
 		x = sX;
