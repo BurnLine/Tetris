@@ -10,6 +10,8 @@ import android.content.Intent;
 
 public class Main extends Activity {
 
+	private static final int step = 20;
+	
 	private float fx, fy;
 	private int x, y;
 	private TetrisGLSurfaceView tetris_view;
@@ -66,8 +68,19 @@ public class Main extends Activity {
 	    */
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			fx = event.getX();
+			fy = event.getY();
 			return true;
 		case MotionEvent.ACTION_MOVE:
+			if (Math.abs(event.getX() - fx) > step) {
+				if (event.getX() > fx) {
+					board.moveRight();
+					fx += step;
+				} else {
+					board.moveLeft();
+					fx -= step;
+				}
+			}
 			return true;
 		}
 		
