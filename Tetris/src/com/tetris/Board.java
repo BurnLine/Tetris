@@ -5,10 +5,11 @@ import java.util.List;
 
 public class Board {
 	private List<Node> boardMap;
+	private ArrayList<Node> removedLine;
+	private List<Node> nodesAbove; // pre buduce animacie, kocky nad odstranenym riadkom
 	private int boardWidth;
 	private int boardHeight;
 	private Shape activeShape;
-	private float edgeSize;
 	
 	private int i, j, maxColl;
 	
@@ -21,6 +22,9 @@ public class Board {
 			boardMap.add(null);
 		boardMap.set(17*10, new Node(0, 0.5f, 17.5f, 0.0f));
 		boardMap.set(17*10 + 1, new Node(0, 1.5f, 17.5f, 0.0f));
+		
+		// vopred vytvorenie pola obsahujuce riadok pre vyhodenie
+		removedLine = new ArrayList<Node>(boardWidth);
 	}
 	
 	// create new active shape in map
@@ -81,6 +85,19 @@ public class Board {
 	public Node getBoardNode(int num)
 	{
 		return boardMap.get(num);
+	}
+	
+	// odstrani riadok a automaticky vrati odstranene nody, pre buduce animacie
+	public ArrayList<Node> removeLine(int line)
+	{
+		if(line > (boardHeight - 1))
+			return null;
+		
+		for(i = 0; i < boardWidth; ++i) {
+			removedLine.set(i, boardMap.remove(line * boardWidth + i));
+		}
+		
+		return removedLine;
 	}
 	
 	private boolean canMoveLeft()
