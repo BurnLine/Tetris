@@ -64,6 +64,16 @@ public class Board {
 		return activeShape;
 	}
 	
+	public int getWidth()
+	{
+		return boardWidth;
+	}
+	
+	public int getHeight()
+	{
+		return boardHeight;
+	}
+	
 	private boolean canMoveLeft()
 	{
 		maxColl = 3;
