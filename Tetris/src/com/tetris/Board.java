@@ -17,6 +17,10 @@ public class Board {
 		boardWidth = width;
 		boardHeight = height;
 		boardMap = new ArrayList<Node>(boardWidth*boardHeight);
+		for(i = 0; i < boardWidth*boardHeight; ++i)
+			boardMap.add(null);
+		boardMap.set(17*10, new Node(0, 0.5f, 17.5f, 0.0f));
+		boardMap.set(17*10 + 1, new Node(0, 1.5f, 17.5f, 0.0f));
 	}
 	
 	// create new active shape in map
@@ -129,7 +133,7 @@ public class Board {
 			for(i = 0; i < 4; ++i) {
 				if(activeShape.getMapValue(i) != 0) {
 					boardMap.set((activeShape.top + j) * 4 + (activeShape.left + i),
-							     new Node(0, (float)activeShape.left + i, (float)activeShape.top + j, 0.0f));
+							     new Node(0, (float)activeShape.left + i + 0.5f, (float)activeShape.top + j + 0.5f, 0.0f));
 				}
 			}
 		}
