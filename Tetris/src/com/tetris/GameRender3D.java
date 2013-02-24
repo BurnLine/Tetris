@@ -56,6 +56,7 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 	
 	private int i;
 	private float ratio, curX, curY;
+	private Node renNode;
 	
 	public GameRender3D(Board board)
 	{
@@ -79,7 +80,9 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 	
 	public void renderAll()
 	{
-		
+		renderLimitsOfBoard();
+		renderShape();
+		renderStaticNodes();
 	}
 	
 	public void renderShape()
@@ -92,11 +95,32 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 				System.out.println("X: " + curX);
 				System.out.println("Y: " + curY);
 				GLES11.glPushMatrix();
-				//GLES11.glLoadIdentity();
-				//GLES11.glTranslatef(0, 0, -15.0f);
-				//GLES11.glLoadIdentity();
-				GLES11.glTranslatef((float)activeShape.left, gameBoard.getHeight() - (float)activeShape.top, 0.0f);
+				GLES11.glTranslatef((float)activeShape.left, (float)(gameBoard.getHeight() - activeShape.top), 0.0f);
 				GLES11.glTranslatef(curX, -curY, 0.0f);
+				GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
+				GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, vertices);
+				GLES11.glDrawArrays(GLES10.GL_TRIANGLES, 0, 6);
+				GLES11.glDisableClientState(GLES10.GL_VERTEX_ARRAY);
+				GLES11.glPopMatrix();
+			}
+		}
+	}
+	
+	public void renderLimitsOfBoard()
+	{
+		GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
+		GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, lines);
+		GLES11.glDrawArrays(GLES10.GL_LINE_STRIP, 0, 5);
+		GLES11.glDisableClientState(GLES10.GL_VERTEX_ARRAY);
+	}
+	
+	public void renderStaticNodes()
+	{
+		for(i = 0; i < gameBoard.getWidth()*gameBoard.getHeight(); ++i) {
+			renNode = gameBoard.getBoardNode(i);
+			if(renNode != null) {
+				GLES11.glPushMatrix();
+				GLES11.glTranslatef(renNode.x, renNode.y, renNode.z);
 				GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
 				GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, vertices);
 				GLES11.glDrawArrays(GLES10.GL_TRIANGLES, 0, 6);
@@ -113,11 +137,7 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 		GLES11.glMatrixMode(GLES11.GL_MODELVIEW);
 		GLES11.glLoadIdentity();
 		GLES11.glTranslatef((float)-gameBoard.getWidth()/2, (float)-gameBoard.getHeight()/2, -25.0f);
-		GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
-		GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, lines);
-		GLES11.glDrawArrays(GLES10.GL_LINE_STRIP, 0, 5);
-		GLES11.glDisableClientState(GLES10.GL_VERTEX_ARRAY);
-		renderShape();
+		
 	}
 
 	@Override
