@@ -20,7 +20,7 @@ public class Shape {
 			0, 0, 0, 0,
 		}};
 	
-	private byte map[] = new byte[4];
+	private byte map[] = new byte[16];
 	
 	public int left;
 	public int top;

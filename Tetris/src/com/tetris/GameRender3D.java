@@ -24,7 +24,7 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 			0.45f, 0.45f, 0.45f,
 			0.45f, -0.45f, 0.45f,
 			-0.45f, -0.45f, 0.45f
-			// back
+			/*// back
 			-0.45f, 0.45f, -0.45f,
 			0.45f, 0.45f, -0.45f,
 			-0.45f, -0.45f, -0.45f,
@@ -44,21 +44,37 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 			0.45f, -0.45f, -0.45f,
 			0.45f, -0.45f, -0.45f,
 			0.45f, -0.45f, 0.45f,
-			-0.45f, -0.45f, 0.45f,
+			-0.45f, -0.45f, 0.45f,*/
 	};
+	
+	private float limits[];
 
 	private Board gameBoard;
 	private Shape activeShape;
 	private FloatBuffer vertices;
+	private FloatBuffer lines;
 	
 	private int i;
-	private float ratio;
+	private float ratio, curX, curY;
 	
 	public GameRender3D(Board board)
 	{
 		gameBoard = board;
-		vertices = ByteBuffer.allocateDirect(72*4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		vertices = ByteBuffer.allocateDirect(18*4).order(ByteOrder.nativeOrder()).asFloatBuffer();
 		vertices.put(CUBE_VERTICES);
+		vertices.position(0);
+		
+		limits = new float[] {
+				0.0f, 0.0f, 0.0f,
+				gameBoard.getWidth(), 0.0f, 0.0f,
+				gameBoard.getWidth(), gameBoard.getHeight(), 0.0f,
+				0.0f, gameBoard.getHeight(), 0.0f,
+				0.0f,0.0f,0.0f
+		};
+		
+		lines = ByteBuffer.allocateDirect(15*4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		lines.put(limits);
+		lines.position(0);
 	}
 	
 	public void renderAll()
@@ -71,9 +87,21 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 		activeShape = gameBoard.getActiveShape();
 		for(i = 0; i < 16; ++i) {
 			if(activeShape.getMapValue(i) == 1) {
+				curX = (float)((int)i%4);
+				curY = (float)((int)i/4);
+				System.out.println("X: " + curX);
+				System.out.println("Y: " + curY);
+				GLES11.glPushMatrix();
+				//GLES11.glLoadIdentity();
+				//GLES11.glTranslatef(0, 0, -15.0f);
+				//GLES11.glLoadIdentity();
+				GLES11.glTranslatef((float)activeShape.left, gameBoard.getHeight() - (float)activeShape.top, 0.0f);
+				GLES11.glTranslatef(curX, -curY, 0.0f);
 				GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
-				GLES11.glVertexPointer(24, GLES10.GL_FLOAT, 0, vertices);
-				GLES11.glDrawArrays(GLES10.GL_TRIANGLES, 0, 8);
+				GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, vertices);
+				GLES11.glDrawArrays(GLES10.GL_TRIANGLES, 0, 6);
+				GLES11.glDisableClientState(GLES10.GL_VERTEX_ARRAY);
+				GLES11.glPopMatrix();
 			}
 		}
 	}
@@ -84,7 +112,12 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 		GLES11.glClear(GLES11.GL_DEPTH_BUFFER_BIT | GLES11.GL_COLOR_BUFFER_BIT);
 		GLES11.glMatrixMode(GLES11.GL_MODELVIEW);
 		GLES11.glLoadIdentity();
-		GLES11.glTranslatef(0.0f, 0.0f, -15.0f);
+		GLES11.glTranslatef((float)-gameBoard.getWidth()/2, (float)-gameBoard.getHeight()/2, -25.0f);
+		GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
+		GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, lines);
+		GLES11.glDrawArrays(GLES10.GL_LINE_STRIP, 0, 5);
+		GLES11.glDisableClientState(GLES10.GL_VERTEX_ARRAY);
+		renderShape();
 	}
 
 	@Override
@@ -94,7 +127,8 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 		ratio = (float)width/height;
 		GLES11.glMatrixMode(GLES11.GL_PROJECTION);
 		GLES11.glLoadIdentity();
-		GLES11.glFrustumf(-ratio, ratio, -1, 1, 3, 7);
+		//GLES11.glFrustumf(-ratio, ratio, -1, 1, 3, 7);
+		GLU.gluPerspective(unused, 45.0f, (float)width / (float)height, 0.1f, 100.0f);
 	}
 
 	@Override
