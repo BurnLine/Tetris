@@ -18,12 +18,12 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 	
 	private final float CUBE_VERTICES[] = {
 			// front
-			-0.45f, 0.45f, 0.45f,
-			0.45f, 0.45f, 0.45f,
-			-0.45f, -0.45f, 0.45f,
-			0.45f, 0.45f, 0.45f,
-			0.45f, -0.45f, 0.45f,
-			-0.45f, -0.45f, 0.45f
+			-0.45f, 0.45f, 0.0f,
+			0.45f, 0.45f, 0.0f,
+			-0.45f, -0.45f, 0.0f,
+			0.45f, 0.45f, 0.0f,
+			0.45f, -0.45f, 0.0f,
+			-0.45f, -0.45f, 0.0f
 			/*// back
 			-0.45f, 0.45f, -0.45f,
 			0.45f, 0.45f, -0.45f,
@@ -95,7 +95,7 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 				System.out.println("X: " + curX);
 				System.out.println("Y: " + curY);
 				GLES11.glPushMatrix();
-				GLES11.glTranslatef((float)activeShape.left, (float)(gameBoard.getHeight() - activeShape.top), 0.0f);
+				GLES11.glTranslatef((float)activeShape.left + 0.5f, (float)(gameBoard.getHeight() - activeShape.top) + 0.5f, 0.0f);
 				GLES11.glTranslatef(curX, -curY, 0.0f);
 				GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
 				GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, vertices);
@@ -120,7 +120,7 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 			renNode = gameBoard.getBoardNode(i);
 			if(renNode != null) {
 				GLES11.glPushMatrix();
-				GLES11.glTranslatef(renNode.x, renNode.y, renNode.z);
+				GLES11.glTranslatef(renNode.x, gameBoard.getHeight() - renNode.y, renNode.z);
 				GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
 				GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, vertices);
 				GLES11.glDrawArrays(GLES10.GL_TRIANGLES, 0, 6);
@@ -137,7 +137,7 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 		GLES11.glMatrixMode(GLES11.GL_MODELVIEW);
 		GLES11.glLoadIdentity();
 		GLES11.glTranslatef((float)-gameBoard.getWidth()/2, (float)-gameBoard.getHeight()/2, -25.0f);
-		
+		this.renderAll();
 	}
 
 	@Override
