@@ -3,8 +3,6 @@ package com.tetris;
 import java.util.ArrayList;
 import java.util.List;
 
-// test 01
-// test 02
 
 public class Board {
 	private List<Node> boardMap;
