@@ -91,8 +91,8 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 			if(activeShape.getMapValue(i) == 1) {
 				curX = (float)((int)i%4);
 				curY = (float)((int)i/4);
-				System.out.println("X: " + curX);
-				System.out.println("Y: " + curY);
+				//System.out.println("X: " + curX);
+				//System.out.println("Y: " + curY);
 				GLES11.glPushMatrix();
 				GLES11.glTranslatef((float)activeShape.left + 0.5f, (float)(gameBoard.getHeight() - activeShape.top) + 0.5f, 0.0f);
 				GLES11.glTranslatef(curX, -curY, 0.0f);

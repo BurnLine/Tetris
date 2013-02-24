@@ -3,7 +3,6 @@ package com.tetris;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Board {
 	private List<Node> boardMap;
 	private ArrayList<Node> removedLine;
@@ -55,7 +54,7 @@ public class Board {
 	// move shape right
 	public void moveRight()
 	{
-		if(this.canMoveRight()) {
+		if(checkEmptyPosition(activeShape.left + 1, activeShape.top)) {
 			activeShape.left += 1;
 		}
 	}
@@ -63,9 +62,8 @@ public class Board {
 	// move shape left 
 	public void moveLeft()
 	{
-		if(this.canMoveLeft()) {
+		if(checkEmptyPosition(activeShape.left - 1, activeShape.top))
 			activeShape.left -= 1;
-		}
 	}
 	
 	public Shape getActiveShape()
@@ -101,36 +99,6 @@ public class Board {
 		return removedLine;
 	}
 	
-	private boolean canMoveLeft()
-	{
-		maxColl = 3;
-		for(j = 0; j < 4; ++j) {
-			i = 0; 
-			while((activeShape.getMapValue(i++, j) == 0) && (i != 3));
-			if(i < maxColl)
-				maxColl = i;
-		}
-		maxColl += activeShape.left;
-		if((maxColl - 1) > -1)
-			return true;
-		return false;
-	}
-	
-	private boolean canMoveRight()
-	{
-		maxColl = 0;
-		for(j = 0; j < 4; ++j) {
-			i = 3; 
-			while((activeShape.getMapValue(i--, j) == 0) && (i != 0));
-			if(i > maxColl)
-				maxColl = i;
-		}
-		maxColl += activeShape.left;
-		if((maxColl + 1) < boardWidth)
-			return true;
-		return false;
-	}
-	
 	private boolean canMoveDown()
 	{
 		/*for(i = 0; i < 4; ++i) {
@@ -141,6 +109,22 @@ public class Board {
 		if(activeShape.top < (boardHeight - 4))
 			return true;
 		return false;
+	}
+	
+	private boolean checkEmptyPosition(int offsetX, int offsetY) {
+		for (j = 0; j < 4; j++) {
+			for (i = 0; i < 4; i++) {
+				if (activeShape.getMapValue(i + j * 4) != 0) {
+					if ((((j + offsetY) * boardWidth + i + offsetX) >= boardWidth * boardHeight)
+							|| ((i + offsetX) < 0) || ((i + offsetX) >= boardWidth)
+							|| (boardMap.get((j + offsetY) * boardWidth + i + offsetX) != null)) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 	
 	// rozhodi prvky shape (jednotkove) do pevnych blokov (nodov)

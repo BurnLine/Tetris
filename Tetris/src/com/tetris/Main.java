@@ -32,10 +32,13 @@ public class Main extends Activity {
 	public boolean onTouchEvent(MotionEvent event) {
 	    switch (event.getAction()) {
 	      case MotionEvent.ACTION_MOVE:
-	        if(((int)(event.getX()/100.0f) - x) > 0)
+	    	  
+	        if(((int)(event.getX()/100.0f) - x) > 1)
 	        	board.moveRight();
-	        else
+	        
+	        if (((int)(event.getX()/100.0f) - x) < -1)
 	        	board.moveLeft();
+	        
 	        x = (int)(event.getX()/100.0f);
 	        y = (int)(event.getY()/100.0f);
 	        tetris_view.requestRender();
