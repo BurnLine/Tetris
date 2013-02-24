@@ -74,6 +74,11 @@ public class Board {
 		return boardHeight;
 	}
 	
+	public Node getBoardNode(int num)
+	{
+		return boardMap.get(num);
+	}
+	
 	private boolean canMoveLeft()
 	{
 		maxColl = 3;
@@ -116,8 +121,18 @@ public class Board {
 		return false;
 	}
 	
+	// rozhodi prvky shape (jednotkove) do pevnych blokov (nodov)
+	// pozicia nodu zavisi na pozicii shape-u plus k tomu pozicia v lokalnej mape shape-u
 	private void smashShape()
 	{
-		
+		for(j = 0; j < 4; ++j) {
+			for(i = 0; i < 4; ++i) {
+				if(activeShape.getMapValue(i) != 0) {
+					boardMap.set((activeShape.top + j) * 4 + (activeShape.left + i),
+							     new Node(0, (float)activeShape.left + i, (float)activeShape.top + j, 0.0f));
+				}
+			}
+		}
+		activeShape = null;
 	}
 }
