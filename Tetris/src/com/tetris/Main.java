@@ -1,5 +1,6 @@
 package com.tetris;
 
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.app.Activity;
@@ -19,10 +20,11 @@ public class Main extends Activity {
 		/*Intent intent = new Intent(this, BoardOld.class);
 		startActivity(intent);*/
 		tetris_view = new TetrisGLSurfaceView(this);
-		board = new Board(15, 30);
+		board = new Board(10, 18);
 		board.attachNewShape(Shape.L_SHAPE);
 		tetris_renderer = new GameRender3D(board);
 		tetris_view.setRenderer(tetris_renderer);
+		tetris_view.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 		setContentView(tetris_view);
 	}
 	
@@ -30,18 +32,18 @@ public class Main extends Activity {
 	public boolean onTouchEvent(MotionEvent event) {
 	    switch (event.getAction()) {
 	      case MotionEvent.ACTION_MOVE:
-	        if(((int)event.getX() - x) > 0)
+	        if(((int)(event.getX()/100.0f) - x) > 0)
 	        	board.moveRight();
 	        else
 	        	board.moveLeft();
-	        x = (int)event.getX();
-	        y = (int)event.getY();
+	        x = (int)(event.getX()/100.0f);
+	        y = (int)(event.getY()/100.0f);
 	        tetris_view.requestRender();
 	        return true;
 	
 	      case MotionEvent.ACTION_DOWN:
-	        x = (int)event.getX();
-	        y = (int)event.getY();
+	        x = (int)(event.getX()/100.0f);
+	        y = (int)(event.getY()/100.0f);
 	        return true;
 	
 	      default:
