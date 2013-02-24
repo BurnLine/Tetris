@@ -3,6 +3,7 @@ package com.tetris;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Board {
 	private List<Node> boardMap;
 	private ArrayList<Node> removedLine;
