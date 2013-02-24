@@ -15,10 +15,35 @@ public class Shape {
 		},
 		{
 			0, 0, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 1, 0,
+			0, 1, 1, 0,
+		},
+		{
+			0, 0, 0, 0,
 			0, 1, 1, 0,
 			0, 1, 1, 0,
 			0, 0, 0, 0,
-		}};
+		},
+		{
+			0, 0, 0, 0,
+			0, 1, 1, 0,
+			1, 1, 0, 0,
+			0, 0, 0, 0,
+		},
+		{
+			0, 0, 0, 0,
+			1, 1, 0, 0,
+			0, 1, 1, 0,
+			0, 0, 0, 0,
+		},
+		{
+			0, 1, 0, 0,
+			0, 1, 0, 0,
+			0, 1, 0, 0,
+			0, 1, 0, 0,
+		}
+	};
 	
 	private byte map[] = new byte[16];
 	
@@ -33,7 +58,7 @@ public class Shape {
 		top = sTop;
 		System.arraycopy(SHAPES[shapeType], 0, map, 0, 16);
 	}
-	
+	/*
 	public byte getMapValue(int x, int y)
 	{
 		return map[y * 4 + x];
@@ -43,7 +68,15 @@ public class Shape {
 	{
 		return map[num];
 	}
+	*/
+	public byte[] getMap() {
+		return map;
+	}
 	
+	public void setMap(byte[] newMap) {
+		map = newMap;
+	}
+	/*
 	public void rotateShape()
 	{
 		byte oldMap[] = map.clone();
@@ -52,5 +85,5 @@ public class Shape {
 				map[j * 4 + i] = oldMap[(3 - i) * 4 + j];
 			}
 		}
-	}
+	}*/
 }

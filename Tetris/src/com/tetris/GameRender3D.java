@@ -88,13 +88,13 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 	{
 		activeShape = gameBoard.getActiveShape();
 		for(i = 0; i < 16; ++i) {
-			if(activeShape.getMapValue(i) == 1) {
+			if(activeShape.getMap()[i] == 1) {
 				curX = (float)((int)i%4);
 				curY = (float)((int)i/4);
 				//System.out.println("X: " + curX);
 				//System.out.println("Y: " + curY);
 				GLES11.glPushMatrix();
-				GLES11.glTranslatef((float)activeShape.left + 0.5f, (float)(gameBoard.getHeight() - activeShape.top) + 0.5f, 0.0f);
+				GLES11.glTranslatef((float)activeShape.left + 0.5f, (float)(gameBoard.getHeight() - activeShape.top) - 0.5f, 0.0f);
 				GLES11.glTranslatef(curX, -curY, 0.0f);
 				GLES11.glEnableClientState(GLES10.GL_VERTEX_ARRAY);
 				GLES11.glVertexPointer(3, GLES10.GL_FLOAT, 0, vertices);
