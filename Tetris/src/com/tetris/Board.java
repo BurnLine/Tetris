@@ -13,7 +13,7 @@ public class Board {
 	private Shape activeShape;
 	private ActionListener listener;
 
-	private int i, j;
+	private int i, j, tmp, count;
 
 	public Board(int width, int height) {
 		boardWidth = width;
@@ -28,6 +28,9 @@ public class Board {
 
 		// vopred vytvorenie pola obsahujuce riadok pre vyhodenie
 		removedLine = new ArrayList<Node>(boardWidth);
+		
+		for (i = 0; i < boardWidth; i++)
+			removedLine.add(null);
 	}
 
 	/**
@@ -60,7 +63,12 @@ public class Board {
 			return true;
 		}
 
+		try {
 		smashShape();
+		checkFullLines();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 		if (listener != null)
 			listener.onSmash();
@@ -131,14 +139,29 @@ public class Board {
 		return boardMap.get(num);
 	}
 
-	// odstrani riadok a automaticky vrati odstranene nody, pre buduce animacie
+	/**
+	 * odstrani riadok a automaticky vrati odstranene nody, pre buduce animacie
+	 * 
+	 * @param line Cislo riadku
+	 * @return odstranene nody pre animaciu
+	 */
 	public ArrayList<Node> removeLine(int line) {
-		if (line > (boardHeight - 1))
-			return null;
-
-		for (i = 0; i < boardWidth; ++i) {
+		for (i = 0; i < boardWidth; i++) {
 			removedLine.set(i, boardMap.get(line * boardWidth + i));
 			boardMap.set(line * boardWidth + i, null);
+		}
+		
+		for (j = line; j > 0; j--) {
+			for (i = 0; i < boardWidth; i++) {
+				Node tmp = boardMap.get((j - 1) * boardWidth + i);
+				
+				if (tmp != null) {
+					tmp.y = j + 0.5f;
+					boardMap.set((j - 1) * boardWidth + i, null);
+				}
+				
+				boardMap.set(j * boardWidth + i, tmp);
+			}
 		}
 
 		return removedLine;
@@ -180,6 +203,34 @@ public class Board {
 		activeShape = null;
 	}
 
+	/**
+	 * najde a odstrani riadky, ktore su cele vyplnene
+	 */
+	private void checkFullLines() {
+		count = 0;
+		
+		for (j = 0; j < boardHeight; j++) {
+			tmp = 0;
+			
+			for (i = 0; i < boardWidth; i++) {
+				if (boardMap.get(j * boardWidth + i) != null)
+					tmp++;
+			}
+			
+			if (tmp == boardWidth) {
+				count++;
+				
+				if (listener != null)
+					listener.onLineSmash(removeLine(j));
+				else
+					removeLine(j);
+			}
+		}
+		
+		if (listener != null)
+			listener.onLinesSmash(count);
+	}
+
 	public void setActionListener(ActionListener listener) {
 		this.listener = listener;
 	}
@@ -193,9 +244,19 @@ public class Board {
 		 * trigger this function when shape smash was done
 		 */
 		public void onSmash();
+		
 		/**
-		 * trigger this function when full line smash
+		 * trigger this function when full lines smash
+		 * 
+		 * @param count Count of smashed lines
 		 */
-		public void onLineSmash();
+		public void onLinesSmash(int count);
+		
+		/**
+		 * vrati aktualne odstraneny riadok
+		 * 
+		 * @param line odstraneny riadok
+		 */
+		public void onLineSmash(ArrayList<Node> line);
 	}
 }

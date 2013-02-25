@@ -1,5 +1,6 @@
 package com.tetris;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,8 +45,13 @@ public class Main extends Activity {
 			}
 
 			@Override
-			public void onLineSmash() {
-				
+			public void onLinesSmash(int count) {
+				// TODO pri odstraneni vsetkych riadkov ( pri 1 ticku)
+			}
+
+			@Override
+			public void onLineSmash(ArrayList<Node> line) {
+				// TODO pri odstraneni jedneho riadku (moze byt viackrat volane pocas 1 ticku)
 			}
 		});
 		tetris_renderer = new GameRender3D(board);
@@ -93,7 +99,7 @@ public class Main extends Activity {
 							fastPush = true;
 					}
 					
-					fy = event.getY();
+					fy += step;
 					fx = event.getX(); // aby pri fastPush nebolo mozne hybat do bokov
 				}
 				
