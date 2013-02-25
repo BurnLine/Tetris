@@ -23,6 +23,8 @@ public class Main extends Activity {
 	private TetrisGLSurfaceView tetris_view;
 	private GameRender3D tetris_renderer;
 	private Board board;
+	
+	// pff pff
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
