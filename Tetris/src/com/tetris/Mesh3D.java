@@ -7,7 +7,9 @@ import java.nio.FloatBuffer;
 public class Mesh3D {
 	public FloatBuffer vertices;
 	public FloatBuffer texCoords;
+	public FourVars  color;
 	private int textureId;
+	private boolean triangleStrip;
 	
 	/**
 	 * default konstruktor
@@ -16,6 +18,7 @@ public class Mesh3D {
 		textureId = -1;
 		vertices = null;
 		texCoords = null;
+		color = new FourVars(1.0f, 1.0f, 1.0f, 1.0f); // white
 	}
 	
 	/**
@@ -56,5 +59,29 @@ public class Mesh3D {
 	 */
 	public void setTexture(int texId) {
 		textureId = texId;
+	}
+	
+	/**
+	 * ci su data ako triangle strip alebo nie
+	 * @param strip
+	 */
+	public void setTriangleStrip(boolean strip) {
+		triangleStrip = strip;
+	}
+	
+	/**
+	 * ci su data ako triangle strip alebo nie
+	 * @return
+	 */
+	public boolean isTriangleStrip() {
+		return triangleStrip;
+	}
+	
+	/**
+	 * nastavi farbu, pokial nie su dane texturove koorodinaty pouzije sa farba
+	 * @param _color
+	 */
+	public void setColor(FourVars _color) {
+		color.set(_color.r, _color.g, _color.b, _color.a);
 	}
 }
