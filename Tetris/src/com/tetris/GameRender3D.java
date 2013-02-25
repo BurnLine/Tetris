@@ -87,6 +87,8 @@ public class GameRender3D implements GLSurfaceView.Renderer {
 	public void renderShape()
 	{
 		activeShape = gameBoard.getActiveShape();
+		if(activeShape == null)
+			return;
 		for(i = 0; i < 16; ++i) {
 			if(activeShape.getMap()[i] == 1) {
 				curX = (float)((int)i%4);
