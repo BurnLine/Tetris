@@ -79,6 +79,7 @@ public class Main extends Activity {
 			fastPush = false;
 			fastPushAgain = true;
 			return true;
+			
 		case MotionEvent.ACTION_MOVE:
 			if (Math.abs(event.getX() - fx) > step) {
 				if (event.getX() > fx) {
@@ -90,6 +91,7 @@ public class Main extends Activity {
 				fx = event.getX();
 				move = true; // nastal pohyb, pri ACTION_UP nenastane akcia
 			}
+			
 			if (Math.abs(event.getY() - fy) > step) {
 				if (event.getY() > fy) {
 					if (fastPush)
@@ -106,9 +108,11 @@ public class Main extends Activity {
 				move = true; // nastal pohyb, pri ACTION_UP nenastane akcia
 			}
 			return true;
+			
 		case MotionEvent.ACTION_UP:
 			if (!move)
 				board.rotateShape();
+			
 			return true;
 		}
 
