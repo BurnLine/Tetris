@@ -73,17 +73,39 @@ public class Shape {
 		return map;
 	}
 	
+	/*
 	public void setMap(byte[] newMap) {
 		map = newMap;
+	}*/
+	
+	/**
+	 * rotate shape and return it, but do not update self
+	 * 
+	 * @return rotated shape
+	 */
+	public byte[] getRotatedShape() {
+		byte newMap[] = map.clone();
+		
+		for(i = 0; i < 4; ++i) {
+			for(j = 0; j < 4; ++j) {
+				newMap[(3 - i) * 4 + j] = map[j * 4 + i];
+			}
+		}
+		
+		return newMap;
 	}
-	/*
+
+	/**
+	 * rotate self shape 
+	 */
 	public void rotateShape()
 	{
 		byte oldMap[] = map.clone();
+		
 		for(i = 0; i < 4; ++i) {
 			for(j = 0; j < 4; ++j) {
-				map[j * 4 + i] = oldMap[(3 - i) * 4 + j];
+				map[(3 - i) * 4 + j] = oldMap[j * 4 + i];
 			}
 		}
-	}*/
+	}
 }

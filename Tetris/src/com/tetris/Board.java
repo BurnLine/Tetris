@@ -13,7 +13,7 @@ public class Board {
 	private Shape activeShape;
 	private ActionListener listener;
 
-	private int i, j, maxColl;
+	private int i, j;
 
 	public Board(int width, int height) {
 		boardWidth = width;
@@ -30,7 +30,11 @@ public class Board {
 		removedLine = new ArrayList<Node>(boardWidth);
 	}
 
-	// create new active shape in map
+	/**
+	 * create new active shape in map
+	 * 
+	 * @param shapeType
+	 */
 	public void attachNewShape(int shapeType) {
 		activeShape = new Shape((boardWidth / 2) - 2, 0, shapeType);
 
@@ -40,7 +44,8 @@ public class Board {
 
 	/**
 	 * push shape down until collide
-	 * @return
+	 * 
+	 * @return true if success
 	 */
 	public boolean pushShape() {
 		if (activeShape == null)
@@ -62,31 +67,25 @@ public class Board {
 		return false;
 	}
 
-	/** rotate shape clock wise
-	 * 
+	/**
+	 * rotate shape clock wise
 	 */
 	public void rotateShape() {
 		if (activeShape == null)
 			return;
 		
-		byte[] newMap = activeShape.getMap().clone();
-
-		for (j = 0; j < 4; j++) {
-			for (i = 0; i < 4; i++) {
-				newMap[(3 - i) * 4 + j] = activeShape.getMap()[j * 4 + i];
-			}
-		}
+		byte[] newMap = activeShape.getRotatedShape();
 
 		if (checkEmptyPosition(newMap, activeShape.left, activeShape.top)) {
-			activeShape.setMap(newMap);
+			activeShape.rotateShape();
 
 			if (listener != null)
 				listener.onRedraw();
 		}
 	}
 
-	/** move shape right
-	 *
+	/** 
+	 * move shape right
 	 */
 	public void moveRight() {
 		if (activeShape == null)
@@ -101,8 +100,8 @@ public class Board {
 		}
 	}
 
-	/** move shape left
-	 * 
+	/**
+	 * move shape left
 	 */
 	public void moveLeft() {
 		if (activeShape == null)
@@ -194,5 +193,9 @@ public class Board {
 		 * trigger this function when shape smash was done
 		 */
 		public void onSmash();
+		/**
+		 * trigger this function when full line smash
+		 */
+		public void onLineSmash();
 	}
 }
